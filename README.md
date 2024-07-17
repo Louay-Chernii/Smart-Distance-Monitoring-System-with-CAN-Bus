@@ -41,17 +41,14 @@ The Smart Distance Monitoring System is an embedded project using the STM32F407V
 
 **Below is a figure that describes the interfacing of the Distance Measurement Node:**
 
-![Distance Measurement Node](./path/to/your/figure1.png)
+![dist](https://github.com/user-attachments/assets/04a9dd0f-eb53-4b59-b47c-802297fff662)
+
 
 #### Central Node
 
 - Receives distance data from the measurement node.
 - Manages alert mechanisms (LEDs, Buzzer).
 - Processes data to determine when to activate/deactivate alerts.
-
-**Below is a figure that describes the interfacing of the Central Node:**
-
-![Central Node](./path/to/your/figure2.png)
 
 ## Setup and Configuration
 
