@@ -1,57 +1,85 @@
-# LED Control via CAN Bus Nodes
+# Smart Distance Monitoring System with CAN Bus
 
-**Description:**
-This project showcases a fundamental implementation of CAN Bus communication between STM32F407G-DISC1 nodes and a central gateway, facilitating control of the internal LEDs on the STM32 boards based on user input.
+## Project Overview
 
-**Features:**
-- Utilizes three STM32F407G-DISC1 development boards.
-- User buttons on each node trigger LED updates and transmit data via the CAN Bus.
-- The STM32F407G-DISC1 gateway receives LED data and adjusts its own internal LED accordingly.
+The Smart Distance Monitoring System is an embedded project using the STM32F407VG Discovery Kit. It measures distance using an HC-SR04 ultrasonic sensor and displays the readings on a 16x2 I2C LCD. The system features CAN bus communication to send distance data to a central node, with alert mechanisms like LEDs and a buzzer for distance threshold breaches. This project was completed in collaboration with my colleague, Wafe Tlili, and with the support of Centre Supérieur de Formation.
 
-**Hardware:**
-- 3x STM32F407G-DISC1 development boards
-- 3x CAN Bus transceivers
+## Features
 
-**Software:**
-- STM32CubeIDE
-- C programming language
+- **Distance Measurement**: Uses the HC-SR04 ultrasonic sensor to measure distances.
+- **Real-time Display**: Displays the measured distance on a 16x2 I2C LCD.
+- **CAN Bus Communication**: Transmits distance data to a central STM32F407 node.
+- **Alert Mechanisms**:
+  - Blue and Green LEDs to indicate different distance ranges.
+  - Buzzer activation when distance exceeds 10 cm.
+  - Push button to deactivate the buzzer.
+- **Modular Design**: Two nodes - one for distance measurement and one central node for data aggregation.
 
-**Included Files:**
-- `main.c`: Contains core application logic for both nodes and gateway.
-- `stm32f4xx_hal.h`: STM32 HAL library header.
+## Components
 
-**Building and Deploying the Project:**
-1. Install STM32CubeIDE and configure it for your STM32F407V development boards.
-2. Import this project into STM32CubeIDE.
-3. For each Node: Update the `main.c` file in the `node/` folder with the appropriate `BOARD` value (e.g., `#define BOARD 1` for the first node, `#define BOARD 2` for the second, etc.).
-4. Build and deploy the code to your respective STM32F407G-DISC1 boards.
+1. **STM32F407VG Discovery Kit**
+2. **HC-SR04 Ultrasonic Sensor**: For distance measurement.
+3. **16x2 I2C LCD**: For displaying the measured distance.
+4. **CAN Bus**: For communication between nodes.
+5. **Buzzer**: For auditory alerts.
+6. **LEDs**: Blue and green LEDs for visual distance indication.
+7. **Push Button**: For deactivating the buzzer.
 
-**Hardware Connections:**
-- Connect user buttons to designated GPIO pins on the STM32F407V boards configured as interrupts.
-- Connect CAN transceivers to the CAN Bus according to their datasheets.
+## System Architecture
 
-**Understanding the Code:**
+### Nodes
 
-The code utilizes STM32 HAL libraries to control GPIO and CAN peripherals. Here’s how it works:
+1. **Distance Measurement Node**:
+   - Interfaced with HC-SR04 sensor and 16x2 I2C LCD.
+   - Measures distance and displays it.
+   - Sends distance data via CAN bus.
 
-***1-Initialization:***
+   Below is a figure that describes the interfacing of the Distance Measurement Node:
 
--The system clock, GPIO, and CAN1 are initialized.
+   ![Distance Measurement Node](path/to/distance_measurement_node_figure.png)
 
--CAN filter settings are configured to accept all messages.
+2. **Central Node**:
+   - Receives distance data from the measurement node.
+   - Manages alert mechanisms (LEDs, Buzzer).
+   - Processes data to determine when to activate/deactivate alerts.
 
--CAN communication and notifications for incoming messages are activated.
+   Below is a figure that describes the interfacing of the Central Node:
 
-***2-Main Loop:***
+   ![Central Node](path/to/central_node_figure.png)
 
--The program waits for the user button press.
+## Setup and Configuration
 
--On button press, all LEDs on the board are turned off.
+### Hardware Connections
 
--A CAN message with the board ID is transmitted.
+1. **HC-SR04 Ultrasonic Sensor**:
+   - TRIG_PIN connected to GPIO_PIN_10 (PORT E).
+   - ECHO_PIN connected to TIM_CHANNEL_1.
 
-***3-CAN Receive Callback:***
+2. **16x2 I2C LCD**:
+   - Connected to I2C1 interface of STM32.
 
--When a CAN message is received, the callback function processes it.
+3. **CAN Bus**:
+   - CAN_TX connected to appropriate GPIO pin.
+   - CAN_RX connected to appropriate GPIO pin.
 
--If the message ID matches the expected value, the received data determines which LEDs to light up on the board.
+4. **LEDs and Buzzer**:
+   - Blue LED connected to GPIO_PIN (PORT C).
+   - Green LED connected to GPIO_PIN (PORT C).
+   - Buzzer connected to GPIO_PIN (PORT A).
+
+5. **Push Button**:
+   - Connected to GPIO_PIN_0 (PORT A).
+
+### Software Setup
+
+1. **Install STM32CubeIDE**: Download and install [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html).
+2. **Clone the Repository**: Clone this repository to your local machine.
+   ```bash
+   git clone https://github.com/Louay-Chernii/Smart-Distance-Monitoring-System-with-CAN-Bus/tree/master
+   ```
+3. **Open the Project**: Open the project in STM32CubeIDE.
+4. **Build and Flash**: Build the project and flash the firmware to the STM32F407VG Discovery Kit.
+
+## Acknowledgments
+
+- **Wafe Tlili**: My colleague who collaborated with me on this project.
