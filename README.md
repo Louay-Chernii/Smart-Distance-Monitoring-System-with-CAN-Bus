@@ -1,7 +1,3 @@
-Sure, here's the updated README with the necessary modifications:
-
----
-
 # Smart Distance Monitoring System with CAN Bus
 
 ## Project Overview
